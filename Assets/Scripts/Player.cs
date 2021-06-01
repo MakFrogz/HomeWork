@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +9,17 @@ namespace Assets.Scripts
     {
         [Inject]
         private PlayerWeaponController _playerWeaponController;
-        private Coroutine _coroutine;
+        private MonoBehaviour _monoBehaviour;
+        private IEnumerator _enumerator;
+        public Player(PlayerWeaponController playerWeaponController)
+        {
+            _playerWeaponController = playerWeaponController;
+        }
+
+        public void Initialize()
+        {
+            Debug.Log("Player Initialize!");
+        }
 
         public void ShootAt(IEnemy enemy)
         {
@@ -20,19 +31,18 @@ namespace Assets.Scripts
             _playerWeaponController.SetPlayerWeapon(delta);
         }
 
-        public void ShootAtCoroutine(MonoBehaviour monoBehaviour, IEnemy enemy)
+        public void ShootAt(MonoBehaviour monoBehaviour, IEnemy enemy)
         {
-            _coroutine = monoBehaviour.StartCoroutine(_playerWeaponController.SetTargetCoroutine(enemy));
+            _monoBehaviour = monoBehaviour;
+            _enumerator = _playerWeaponController.SetTargetCoroutine(enemy);
+            _monoBehaviour.StartCoroutine(_enumerator);
         }
 
-        public void Initialize()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Debug.Log("Player Disposed!");
+            _monoBehaviour.StopCoroutine(_enumerator);
         }
     }
 }

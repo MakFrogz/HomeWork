@@ -12,13 +12,7 @@ namespace Assets.Scripts
         [Inject]
         private IEnemy _alien;
 
-        private MonoBehaviour _monoBehaviour;
-
-        public void SetMonoBehaviour(MonoBehaviour monoBehaviour)
-        {
-            _monoBehaviour = monoBehaviour;
-        }
-        public void Update()
+        public void Update(MonoBehaviour monoBehaviour)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -27,7 +21,7 @@ namespace Assets.Scripts
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _player.ShootAtCoroutine(_monoBehaviour ,_alien);
+                _player.ShootAt(monoBehaviour ,_alien);
             }
 
 

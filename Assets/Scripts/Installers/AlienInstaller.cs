@@ -15,8 +15,7 @@ namespace Assets.Scripts
         public override void InstallBindings()
         {
             Container
-                .Bind<Player>()
-                .To<Player>()
+                .BindInterfacesAndSelfTo<Player>()
                 .AsSingle();
 
             Container

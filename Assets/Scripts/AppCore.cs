@@ -10,14 +10,9 @@ namespace Assets.Scripts
         [Inject]
         private AlienGameCore _gameCore;
 
-        private void Start()
-        {
-            _gameCore.SetMonoBehaviour(this);
-        }
-
         void Update()
         {
-            _gameCore.Update();
+            _gameCore.Update(this);
         }
     }
 
