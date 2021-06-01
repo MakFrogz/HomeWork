@@ -7,7 +7,6 @@ namespace Assets.Scripts
 {
     class Player : IInitializable, IDisposable
     {
-        [Inject]
         private PlayerWeaponController _playerWeaponController;
         private MonoBehaviour _monoBehaviour;
         private IEnumerator _enumerator;
