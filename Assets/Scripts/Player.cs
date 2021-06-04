@@ -10,7 +10,11 @@ namespace Assets.Scripts
     {
         private PlayerWeaponController _playerWeaponController;
         private ICoroutineService _coroutineService;
+        
         private Coroutine _fireCoroutine;
+        private bool _isInCooldown;
+        private float _cooldown = 2f;
+
         public Player(PlayerWeaponController playerWeaponController, ICoroutineService coroutineService)
         {
             _playerWeaponController = playerWeaponController;
@@ -24,13 +28,21 @@ namespace Assets.Scripts
 
         public void ShootAt(IEnemy enemy)
         {
-            _fireCoroutine = _coroutineService.RunCoroutine(ShootWithDelay(2f, enemy));
+            if (_isInCooldown)
+            {
+                Debug.Log("Cooldown!");
+                return;
+            }
+            _fireCoroutine = _coroutineService.RunCoroutine(Cooldown(_cooldown, () => _isInCooldown = false));
+            _playerWeaponController.CurrentWeapon.ApplyDamage(enemy);
+            _isInCooldown = true;
+
         }
 
-        private IEnumerator ShootWithDelay(float delay, IEnemy enemy)
+        private IEnumerator Cooldown(float cooldown, Action callback)
         {
-            yield return new WaitForSeconds(delay);
-            _playerWeaponController.CurrentWeapon.ApplyDamage(enemy);
+            yield return new WaitForSeconds(cooldown);
+            callback?.Invoke();
         }
 
         public void NextWeapon()
@@ -48,7 +60,10 @@ namespace Assets.Scripts
         public void Dispose()
         {
             Debug.Log("Player Disposed!");
-            _coroutineService.EndCoroutine(_fireCoroutine);
+            if(_coroutineService != null)
+            {
+                _coroutineService.EndCoroutine(_fireCoroutine);
+            }
         }
     }
 }

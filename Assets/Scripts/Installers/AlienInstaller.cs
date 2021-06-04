@@ -8,17 +8,14 @@ namespace Assets.Scripts
     {
         [Header("Weapons Damage")]
         [Space]
-        [Range(0,50)]
-        [SerializeField] 
-        private int _shotgunDamage;
+        [SerializeField]
+        private Shotgun _shotgun;
 
-        [Range(0, 50)]
         [SerializeField] 
-        private int _pistolDamage;
+        private Pistol _pistol;
 
-        [Range(0, 50)]
         [SerializeField] 
-        private int _m4a1Damage;
+        private M4A1 _m4a1;
 
         [Header("Armors value")]
 
@@ -48,6 +45,15 @@ namespace Assets.Scripts
                 .FromFactory<CoroutineServiceFactory>();
 
             Container
+                .BindFactory<ShotgunBullet, ShotgunBullet.Factory>();
+
+            Container
+                .BindFactory<PistolBullet, PistolBullet.Factory>();
+
+            Container
+                .BindFactory<M4A1Bullet, M4A1Bullet.Factory>();
+
+            Container
                 .Bind<IEnemy>()
                 .To<Alien>()
                 .AsSingle();
@@ -55,19 +61,19 @@ namespace Assets.Scripts
             Container
                 .Bind<IWeapon>()
                 .To<Shotgun>()
-                .FromInstance(new Shotgun(_shotgunDamage))
+                .FromScriptableObject(_shotgun)
                 .AsSingle();
 
             Container
                 .Bind<IWeapon>()
                 .To<M4A1>()
-                .FromInstance(new M4A1(_m4a1Damage))
+                .FromScriptableObject(_m4a1)
                 .AsSingle();
 
             Container
                 .Bind<IWeapon>()
                 .To<Pistol>()
-                .FromInstance(new Pistol(_pistolDamage))
+                .FromScriptableObject(_pistol)
                 .AsSingle();
 
             Container

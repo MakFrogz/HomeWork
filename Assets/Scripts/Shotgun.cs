@@ -1,17 +1,21 @@
-﻿
+﻿using UnityEngine;
+using Zenject;
 namespace Assets.Scripts
 {
-    class Shotgun : IWeapon
+    [CreateAssetMenu(fileName = "Shotgun", menuName = "Weapon/Shotgun")]
+    class Shotgun : ScriptableObject, IWeapon
     {
-        private int _damage;
+        [Inject]
+        private ShotgunBullet.Factory _factory;
 
-        public Shotgun (int damage)
-        {
-            _damage = damage;
-        }
+        [SerializeField]
+        [Range(1,50)]
+        private int _damage = 40;
+
         public void ApplyDamage(IEnemy enemy)
         {
-            enemy.TakeDamage(_damage);
+            ShotgunBullet shotgunBullet = _factory.Create();
+            shotgunBullet.ApplyDamage(enemy, _damage);
         }
     }
 }
