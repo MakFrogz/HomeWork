@@ -51,12 +51,12 @@ namespace Assets.Scripts
 
         private void SetTarget()
         {
-            if(_alien == null)
+            if (_alien == null)
             {
                 _alien = GetRandomEnemy();
                 return;
             }
-            else if(_alien.Alive)
+            else if (_alien.Alive)
             {
                 return;
             }
@@ -82,7 +82,7 @@ namespace Assets.Scripts
         {
             while (true)
             {
-                Alien newAlien = _alienFactory.Create();
+                IEnemy newAlien = _alienFactory.Create();
                 _aliens.Add(newAlien);
                 Debug.Log($"New enemy was created! Enemy count: {_aliens.Count}");
                 yield return new WaitForSeconds(delay);
@@ -91,7 +91,7 @@ namespace Assets.Scripts
         public void Dispose()
         {
             Debug.Log("GameCore disposed!");
-            if(_coroutineService != null)
+            if(_coroutineService != null && _spawnAlienCoroutine != null)
             {
                 _coroutineService.EndCoroutine(_spawnAlienCoroutine);
             }

@@ -61,7 +61,7 @@ namespace Assets.Scripts
         public void Dispose()
         {
             Debug.Log("Player Disposed!");
-            if(_coroutineService != null)
+            if(_coroutineService != null && _fireCoroutine != null)
             {
                 _coroutineService.EndCoroutine(_fireCoroutine);
             }
