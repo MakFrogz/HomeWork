@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: M4A1
   m_EditorClassIdentifier: 
   _damage: 25
+  _reloadTime: 0.4

@@ -6,26 +6,26 @@ namespace Assets.Scripts
     [CreateAssetMenu(fileName = "Alien", menuName = "Enemies/Alien")]
     class Alien : ScriptableObject, IEnemy
     {
+        [Inject]
+        private IArmor _lightArmor;
+
         [SerializeField]
         [Range(1,200)]
         private int _health = 100;
 
-        private bool _alive = true;
-
-        [Inject]
-        private IArmor _lightArmor;
+        public bool Alive { get; private set; } = true;
         public void TakeDamage(int damage)
         {
-            if (!_alive)
+            if (!Alive)
             {
                 Debug.LogError("Alien is dead!");
                 return;
             }
 
             _health -= _lightArmor.AbsorbDamage(damage);
-            _alive = _health > 0;
+            Alive = _health > 0;
             Debug.Log($"Current health: {_health}. Alien took damage {damage}!");
-            if (!_alive)
+            if (!Alive)
             {
                 Debug.LogWarning("Alien is dead!");
             }

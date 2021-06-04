@@ -11,8 +11,6 @@ namespace Assets.Scripts
     {
         [Inject]
         private Player _player;
-        /*[Inject]
-        private IEnemy _alien;*/
 
         [Inject]
         private ICoroutineService _coroutineService;
@@ -21,13 +19,14 @@ namespace Assets.Scripts
         private Alien.Factory _alienFactory;
 
 
-        private List<Alien> _aliens;
+        private List<IEnemy> _aliens;
+        private IEnemy _alien;
         private Coroutine _spawnAlienCoroutine;
 
         public void Initialize()
         {
             Debug.Log("GameCore Initialize!");
-            _aliens = new List<Alien>();
+            _aliens = new List<IEnemy>();
             _spawnAlienCoroutine = _coroutineService.RunCoroutine(EnemySpawnCoroutine(5f));
         }
 
@@ -35,7 +34,8 @@ namespace Assets.Scripts
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _player.ShootAt(GetRandomEnemy());
+                SetTarget();
+                _player.ShootAt(_alien);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -49,21 +49,44 @@ namespace Assets.Scripts
             }
         }
 
+        private void SetTarget()
+        {
+            if(_alien == null)
+            {
+                _alien = GetRandomEnemy();
+                return;
+            }
+            else if(_alien.Alive)
+            {
+                return;
+            }
+            else
+            {
+                _alien = GetRandomEnemy();
+            }
+        }
+
+
+        private IEnemy GetRandomEnemy()
+        {
+            if(_aliens.Count <= 0)
+            {
+                return null;
+            }
+            int enemyIndex = UnityEngine.Random.Range(0, _aliens.Count);
+            IEnemy enemy = _aliens[enemyIndex];
+            _aliens.Remove(enemy);
+            return enemy;
+        }
         private IEnumerator EnemySpawnCoroutine(float delay)
         {
             while (true)
             {
-                Debug.Log("New enemy was created!");
                 Alien newAlien = _alienFactory.Create();
                 _aliens.Add(newAlien);
+                Debug.Log($"New enemy was created! Enemy count: {_aliens.Count}");
                 yield return new WaitForSeconds(delay);
             }
-        }
-
-        private IEnemy GetRandomEnemy()
-        {
-            int enemyIndex = UnityEngine.Random.Range(0, _aliens.Count);
-            return _aliens[enemyIndex];
         }
         public void Dispose()
         {

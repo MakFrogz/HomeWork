@@ -12,7 +12,23 @@ namespace Assets.Scripts
         [SerializeField]
         [Range(1,50)]
         private int _damage = 15;
-        
+
+        [SerializeField]
+        [Range(0f, 2f)]
+        private float _reloadTime;
+        public float ReloadTime
+        {
+            get
+            {
+                return _reloadTime;
+            }
+
+            private set
+            {
+                _reloadTime = value;
+            }
+        }
+
         public void ApplyDamage(IEnemy enemy)
         {
             PistolBullet pistolBullet = _factory.Create();

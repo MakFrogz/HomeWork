@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   _damage: 40
+  _reloadTime: 1

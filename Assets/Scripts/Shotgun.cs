@@ -12,6 +12,22 @@ namespace Assets.Scripts
         [Range(1,50)]
         private int _damage = 40;
 
+        [SerializeField]
+        [Range(0f, 2f)]
+        private float _reloadTime;
+        public float ReloadTime 
+        { 
+            get 
+            { 
+                return _reloadTime; 
+            }
+            
+            private set
+            {
+                _reloadTime = value;
+            }
+        }
+
         public void ApplyDamage(IEnemy enemy)
         {
             ShotgunBullet shotgunBullet = _factory.Create();

@@ -8,6 +8,7 @@ namespace Assets.Scripts
 {
     interface IEnemy
     {
+        bool Alive { get;}
         void TakeDamage(int damage);
     }
 }

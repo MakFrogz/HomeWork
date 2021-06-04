@@ -8,6 +8,7 @@ namespace Assets.Scripts
 {
     interface IWeapon
     {
+        float ReloadTime { get; }
         void ApplyDamage(IEnemy enemy);
     }
 }
