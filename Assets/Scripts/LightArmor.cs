@@ -2,13 +2,13 @@
 
 namespace Assets.Scripts
 {
-    class LightArmor : IArmor
+    [CreateAssetMenu(fileName = "Light_Armor", menuName = "Armors/Light Armor")]
+    class LightArmor : ScriptableObject, IArmor
     {
-        private int _armor;
-        public LightArmor(int armor)
-        {
-            _armor = armor;
-        }
+        [SerializeField]
+        [Range(0,20)]
+        private int _armor = 5;
+        
         public int AbsorbDamage(int damage)
         {
             return Mathf.Clamp(damage - _armor, 0 , 1000);

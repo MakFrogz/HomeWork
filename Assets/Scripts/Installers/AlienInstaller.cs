@@ -18,10 +18,13 @@ namespace Assets.Scripts
         private M4A1 _m4a1;
 
         [Header("Armors value")]
-
-        [Range(0, 50)]
+        [Space]
         [SerializeField] 
-        private int _lightArmor;
+        private LightArmor _lightArmor;
+
+        [Header("Enemies Settings")]
+        [SerializeField]
+        private Alien _alien;
 
         public override void InstallBindings()
         {
@@ -35,14 +38,9 @@ namespace Assets.Scripts
                 .AsSingle();
 
             Container
-                .Bind<AlienGameCore>()
-                .To<AlienGameCore>()
+                .BindInterfacesAndSelfTo<AlienGameCore>()
                 .AsSingle()
                 .NonLazy();
-
-            Container
-                .Bind<ICoroutineService>()
-                .FromFactory<CoroutineServiceFactory>();
 
             Container
                 .BindFactory<ShotgunBullet, ShotgunBullet.Factory>();
@@ -54,8 +52,12 @@ namespace Assets.Scripts
                 .BindFactory<M4A1Bullet, M4A1Bullet.Factory>();
 
             Container
+                .BindFactory<Alien, Alien.Factory>();
+
+            Container
                 .Bind<IEnemy>()
                 .To<Alien>()
+                .FromScriptableObject(_alien)
                 .AsSingle();
 
             Container
@@ -79,7 +81,7 @@ namespace Assets.Scripts
             Container
                 .Bind<IArmor>()
                 .To<LightArmor>()
-                .FromInstance(new LightArmor(_lightArmor))
+                .FromScriptableObject(_lightArmor)
                 .AsSingle();
 
         }

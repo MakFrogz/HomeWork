@@ -282,7 +282,8 @@ MonoBehaviour:
   _shotgun: {fileID: 11400000, guid: b43ada99d64e1b84dab9ef35b25da03f, type: 2}
   _pistol: {fileID: 11400000, guid: 73f53903857ee8d4c8062693eec4879b, type: 2}
   _m4a1: {fileID: 11400000, guid: 8d8e924579c621c44bdc2e97ddaefe38, type: 2}
-  _lightArmor: 5
+  _lightArmor: {fileID: 11400000, guid: 664fb96ac5d502944bf96bb0e9da6dbb, type: 2}
+  _alien: {fileID: 11400000, guid: 364012280727df44cb0b145c0c38fb42, type: 2}
 --- !u!114 &1630002108
 MonoBehaviour:
   m_ObjectHideFlags: 0

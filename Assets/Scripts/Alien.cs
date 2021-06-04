@@ -3,10 +3,15 @@ using Zenject;
 
 namespace Assets.Scripts
 {
-    class Alien : IEnemy
+    [CreateAssetMenu(fileName = "Alien", menuName = "Enemies/Alien")]
+    class Alien : ScriptableObject, IEnemy
     {
+        [SerializeField]
+        [Range(1,200)]
         private int _health = 100;
+
         private bool _alive = true;
+
         [Inject]
         private IArmor _lightArmor;
         public void TakeDamage(int damage)
@@ -24,6 +29,12 @@ namespace Assets.Scripts
             {
                 Debug.LogWarning("Alien is dead!");
             }
+        }
+
+
+        public class Factory : PlaceholderFactory<Alien>
+        {
+
         }
     }
 }
