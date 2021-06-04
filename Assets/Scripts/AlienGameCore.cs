@@ -1,7 +1,5 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
-using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -12,18 +10,12 @@ namespace Assets.Scripts
         [Inject]
         private IEnemy _alien;
 
-        public void Update(MonoBehaviour monoBehaviour)
+        public void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _player.ShootAt(_alien);
             }
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                _player.ShootAt(monoBehaviour ,_alien);
-            }
-
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {

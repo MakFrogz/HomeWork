@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts
@@ -12,7 +10,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            _gameCore.Update(this);
+            _gameCore.Update();
         }
     }
 

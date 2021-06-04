@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Services;
+using System;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -8,11 +9,12 @@ namespace Assets.Scripts
     class Player : IInitializable, IDisposable
     {
         private PlayerWeaponController _playerWeaponController;
-        private MonoBehaviour _monoBehaviour;
-        private IEnumerator _enumerator;
-        public Player(PlayerWeaponController playerWeaponController)
+        private ICoroutineService _coroutineService;
+        private Coroutine _fireCoroutine;
+        public Player(PlayerWeaponController playerWeaponController, ICoroutineService coroutineService)
         {
             _playerWeaponController = playerWeaponController;
+            _coroutineService = coroutineService;
         }
 
         public void Initialize()
@@ -22,6 +24,12 @@ namespace Assets.Scripts
 
         public void ShootAt(IEnemy enemy)
         {
+            _fireCoroutine = _coroutineService.RunCoroutine(ShootWithDelay(2f, enemy));
+        }
+
+        private IEnumerator ShootWithDelay(float delay, IEnemy enemy)
+        {
+            yield return new WaitForSeconds(delay);
             _playerWeaponController.CurrentWeapon.ApplyDamage(enemy);
         }
 
@@ -37,30 +45,10 @@ namespace Assets.Scripts
             Debug.Log($"Current weapon: {_playerWeaponController.CurrentWeapon}");
         }
 
-        public void ShootAt(MonoBehaviour monoBehaviour, IEnemy enemy)
-        {
-            _monoBehaviour = monoBehaviour;
-            _enumerator = FireCoroutine(enemy);
-            _monoBehaviour.StartCoroutine(_enumerator);
-        }
-
-        private IEnumerator FireCoroutine(IEnemy enemy)
-        {
-            while (true)
-            {
-                _playerWeaponController.CurrentWeapon.ApplyDamage(enemy);
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
-
-
         public void Dispose()
         {
             Debug.Log("Player Disposed!");
-            if(_enumerator != null)
-            {
-                _monoBehaviour.StopCoroutine(_enumerator);
-            }
+            _coroutineService.EndCoroutine(_fireCoroutine);
         }
     }
 }

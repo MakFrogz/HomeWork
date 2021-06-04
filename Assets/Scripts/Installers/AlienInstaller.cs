@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Services;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts
@@ -41,6 +42,10 @@ namespace Assets.Scripts
                 .To<AlienGameCore>()
                 .AsSingle()
                 .NonLazy();
+
+            Container
+                .Bind<ICoroutineService>()
+                .FromFactory<CoroutineServiceFactory>();
 
             Container
                 .Bind<IEnemy>()
