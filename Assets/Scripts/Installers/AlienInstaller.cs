@@ -23,8 +23,17 @@ namespace Assets.Scripts
         private LightArmor _lightArmor;
 
         [Header("Enemies Settings")]
+        [Space]
         [SerializeField]
         private Alien _alien;
+
+        [Header("Pop-up Settings")]
+        [Space]
+        [SerializeField]
+        private Object _popupPrefab;
+
+        [SerializeField]
+        private Transform _canvasTransform;
 
         public override void InstallBindings()
         {
@@ -53,6 +62,11 @@ namespace Assets.Scripts
 
             Container
                 .BindFactory<Alien, Alien.Factory>();
+
+            Container
+                .BindFactory<string, Vector3, Popup, Popup.Factory>()
+                .FromComponentInNewPrefab(_popupPrefab)
+                .UnderTransform(_canvasTransform);
 
             Container
                 .Bind<IEnemy>()

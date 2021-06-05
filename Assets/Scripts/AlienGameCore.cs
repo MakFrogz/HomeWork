@@ -91,7 +91,9 @@ namespace Assets.Scripts
         public void Dispose()
         {
             Debug.Log("GameCore disposed!");
-            if(_coroutineService != null && _spawnAlienCoroutine != null)
+            Debug.Log("!=: " + _coroutineService != null);
+            Debug.Log("is null:" + _coroutineService is null);
+            if(_coroutineService is null)
             {
                 _coroutineService.EndCoroutine(_spawnAlienCoroutine);
             }
